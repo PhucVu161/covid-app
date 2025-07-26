@@ -4,19 +4,10 @@ export default function CountrySelector() {
   const [countries, setCountries] = useState([]);
   const [countrySelector, setCountrySelector] = useState("VNM");
   useEffect(() => {
-    fetch("https://covid-api.com/api/reports")
+    fetch("https://covid-api.com/api/regions")
       .then((response) => response.json())
       .then((data) => {
-        setCountries(
-          Array.from(
-            new Map( //lọc các dữ liệu của province khác nhưng trùng region chỉ lấy region riêng biệt
-              data.data.map((item) => [
-                item.region.iso,
-                { iso: item.region.iso, name: item.region.name },
-              ])
-            ).values()
-          )
-        );
+        setCountries(data.data.sort((a, b) => a.name.localeCompare(b.name)));
       });
   }, []);
 
@@ -33,19 +24,17 @@ export default function CountrySelector() {
         name="country-selector"
         id="country-selector"
       >
-        {countries.length === 0 ? (
-          <option>Đang tải quốc gia...</option>
-        ) : (
-          countries.map((country) => (
-            <option key={country.iso} value={country.iso}>
-              {country.name}
-            </option>
-          ))
-        )}
+        {countries.map((country) => (
+        <option key={country.iso} value={country.iso}>
+          {country.name}
+        </option>
+        ))}
       </select>
-        <div className="text-sm text-gray-400 mt-0.5">
-          {countries.length === 0 ? "Đang tải danh sách quốc gia..." : "Lựa chọn quốc gia " + countries.length}
-        </div>
+      <div className="text-sm text-gray-400 mt-0.5">
+        {countries.length === 0
+          ? "Đang tải danh sách quốc gia..."
+          : "Lựa chọn quốc gia "}
+      </div>
     </>
   );
 }
