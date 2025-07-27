@@ -1,11 +1,11 @@
 import CountrySelector from "./CountrySelector";
 import Sumary from "./Sumary";
-import Chart from "./Chart";
+import ChartComponent from "./ChartComponent";
 import { useState } from "react";
 
 export default function CovidApp1() {
   const [countrySelected, setCountrySelected] = useState("VNM");
-    const [dataCard, setDataCard] = useState({});
+  const [dataCard, setDataCard] = useState({});
   return (
     <>
       <div className="text-white bg-blue-950 px-30 py-4">
@@ -17,7 +17,7 @@ export default function CovidApp1() {
 
         <Sumary countrySelected={countrySelected} dataCard={dataCard} setDataCard={setDataCard}/>
 
-        <Chart />
+        <ChartComponent countrySelected={countrySelected} lastDate={dataCard.date}/>
       </div>
     </>
   );
